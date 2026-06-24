@@ -15,7 +15,7 @@
     "@sentry/react": "^6.19.2",
     "@sentry/tracing": "^6.19.2",
     "axios": "^0.26.1",
-    "joi": "^17.6.0",
+    "joi": "^17.13.4",
     "jwt-decode": "^3.1.2",
     "lodash": "^4.17.21",
     "prop-types": "^15.8.1",
