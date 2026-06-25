@@ -43,18 +43,17 @@ class MovieForm extends Form {
   });
 
   async populateGenres() {
-    const { data: genres } = await getGenres();
-    this.setState({ genres });
+    // La API devuelve { data: [...], pagination: {...} }
+    const { data: genresRes } = await getGenres();
+    this.setState({ genres: genresRes.data });
   }
 
   async populateMovie() {
     try {
       const { id: movieId } = this.props.router.params;
-      console.log(movieId);
       if (movieId === "new") return;
 
       const { data: movie } = await getMovie(movieId);
-      console.log(movie);
       this.setState({ data: this.mapToViewModel(movie[0]) });
     } catch (ex) {
       if (ex.response && ex.response.status === 404)

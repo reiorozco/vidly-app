@@ -33,11 +33,12 @@ class Movies extends Component {
   };
 
   async componentDidMount() {
-    const { data } = await getGenres();
-    const genres = [{ _id: "", name: "All Genres" }, ...data];
+    // La API devuelve respuestas paginadas: { data: [...], pagination: {...} }
+    const { data: genresRes } = await getGenres();
+    const genres = [{ _id: "", name: "All Genres" }, ...genresRes.data];
 
-    const { data: movies } = await getMovies();
-    this.setState({ movies, genres });
+    const { data: moviesRes } = await getMovies();
+    this.setState({ movies: moviesRes.data, genres });
   }
 
   handleDelete = async (movie) => {
