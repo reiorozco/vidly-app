@@ -5,7 +5,7 @@
 </p>
 
 <p align="center">
-  <a href="https://vidly-app-reiorozco.vercel.app"><img src="https://img.shields.io/badge/Live_Demo-000?style=for-the-badge&logo=vercel&logoColor=white" alt="Live Demo"/></a>
+  <a href="https://vidly-app-six.vercel.app"><img src="https://img.shields.io/badge/Live_Demo-000?style=for-the-badge&logo=vercel&logoColor=white" alt="Live Demo"/></a>
   <img src="https://img.shields.io/badge/React-61DAFB?style=for-the-badge&logo=react&logoColor=black"/>
   <img src="https://img.shields.io/badge/Vite-646CFF?style=for-the-badge&logo=vite&logoColor=white"/>
   <img src="https://img.shields.io/badge/MUI-007FFF?style=for-the-badge&logo=mui&logoColor=white"/>
@@ -14,7 +14,7 @@
 
 ## 🔗 Links
 
-- **Live demo:** [vidly-app-reiorozco.vercel.app](https://vidly-app-reiorozco.vercel.app)
+- **Live demo:** [vidly-app-six.vercel.app](https://vidly-app-six.vercel.app)
 - **Backend API:** [reiorozco/vidly-api](https://github.com/reiorozco/vidly-api)
 
 ## ✨ Features
