@@ -25,6 +25,8 @@ class Movies extends Component {
   state = {
     movies: [],
     genres: [],
+    loading: true,
+    error: false,
     pageSize: 4,
     currentPage: 1,
     searchQuery: "",
@@ -33,13 +35,28 @@ class Movies extends Component {
   };
 
   async componentDidMount() {
-    // La API devuelve respuestas paginadas: { data: [...], pagination: {...} }
-    const { data: genresRes } = await getGenres();
-    const genres = [{ _id: "", name: "All Genres" }, ...genresRes.data];
-
-    const { data: moviesRes } = await getMovies();
-    this.setState({ movies: moviesRes.data, genres });
+    await this.loadData();
   }
+
+  loadData = async () => {
+    try {
+      this.setState({ loading: true, error: false });
+
+      // La API devuelve respuestas paginadas: { data: [...], pagination: {...} }
+      const { data: genresRes } = await getGenres();
+      const genres = [{ _id: "", name: "All Genres" }, ...genresRes.data];
+
+      const { data: moviesRes } = await getMovies();
+      this.setState({ movies: moviesRes.data, genres });
+    } catch (ex) {
+      // Un cold start de la API puede fallar de forma transitoria: en vez de
+      // dejar la página colgada en el spinner, mostramos un error con reintento.
+      toast.error("No se pudieron cargar las películas. Intenta de nuevo.");
+      this.setState({ error: true });
+    } finally {
+      this.setState({ loading: false });
+    }
+  };
 
   handleDelete = async (movie) => {
     const originalMovies = this.state.movies;
@@ -120,9 +137,33 @@ class Movies extends Component {
       sortColumn,
       searchQuery,
       movies: allMovies,
+      loading,
+      error,
     } = this.state;
 
     const { user } = this.props;
+
+    if (loading) {
+      return (
+        <Box sx={{ display: "flex", justifyContent: "center", mt: 8 }}>
+          <CircularProgress size={50} />
+        </Box>
+      );
+    }
+
+    if (error) {
+      return (
+        <Box sx={{ textAlign: "center", mt: 8 }}>
+          <Typography mb={2}>
+            No se pudieron cargar las películas. La API pudo haber arrancado en
+            frío; vuelve a intentarlo.
+          </Typography>
+          <Button variant="contained" onClick={this.loadData}>
+            Reintentar
+          </Button>
+        </Box>
+      );
+    }
 
     const { data: movies, totalCount } = this.getPageData();
 
@@ -193,12 +234,6 @@ class Movies extends Component {
               onLike={this.handleLike}
               onSort={this.handleSort}
             />
-
-            {allMovies.length === 0 && (
-              <Box sx={{ width: { md: "75%" } }}>
-                <CircularProgress size={50} />
-              </Box>
-            )}
 
             <Pagination
               itemsCount={totalCount}
